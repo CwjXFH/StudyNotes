@@ -136,9 +136,13 @@ SQL Server支持三种临时表：本地临时表、全局临时表和表变量�
 
 #### 本地临时表
 
-创建本地临时表的方式不普通的数据表相同，但本地临时表仅在它被创建的会话中可见，会话结束后，临时表也会被销毁。
+创建本地临时表的方式与普通的数据表相同，但本地临时表仅在它被创建的会话中可见，会话结束后，临时表也会被销毁。
 
-临时表以#开头，如：`#UserInfo`。临时表中的数据存储在磁盘中。
+临时表以#开头，如：`#UserInfo`。临时表中的数据存储在磁盘中，可使用以下语句判断临时表是否存在：
+
+```mssql
+IF OBJECT_ID('tempdb.dbo.#table_name') IS NOT NULL
+```
 
 #### 全局临时表
 
@@ -156,13 +160,21 @@ SQL Server支持三种临时表：本地临时表、全局临时表和表变量�
 
 #### 表变量
 
-表变量的声明与普通变量类似，使用DECLARE语句。表变量只在创建它的会话中可见，且只对当前批可见。
+表变量的声明与普通变量一样，使用DECLARE语句，但相比于普通变量，表变量具有一些表的特征，如：可以执行INSERT、DELETE等操作。表变量只在创建它的会话中可见，且只对当前批可见。超出作用域或语句执行完毕，表变量便不可用。
 
-> 一个显式事务回滚，事务中对临时表的修改也会回滚，但对**已完成**的表变量修改，则不会回滚。数据量较少时建议使用表变量，数据量较大时推荐使用临时表。
+> 一个显式事务回滚，事务中对临时表的修改也会回滚，但对**已完成**的表变量修改，则不会回滚。数据量较少时建议使用表变量，数据量较大时推荐使用临时表，微软文档中说[大于100行](https://www.jianshu.com/[https://docs.microsoft.com/en-us/sql/t-sql/data-types/table-transact-sql?view=sql-server-ver15#limitations-and-restrictions](https://docs.microsoft.com/en-us/sql/t-sql/data-types/table-transact-sql?view=sql-server-ver15#limitations-and-restrictions))就要考虑使用临时表了。
 
 #### 表变量 vs 临时表
 
 表变量与临时表类似，但[二者有所区别](https://www.mssqltips.com/sqlservertip/1556/differences-between-sql-server-temporary-tables-and-table-variables/)。**临时表更多的强调它是数据表，表变量着重点则在于变量上**。
+
+关于表变量是在内存中存储数据，还是在硬盘上存储数据，可以参考[stackoverflow](https://stackoverflow.com/questions/43753181/where-do-the-temp-table-and-variable-table-to-store-the-physical-disk-or-memory)上的讨论：
+
+> A **table variable is not a memory-only structure**. Because a table variable might hold more data than can fit in memory, it has to have a place on disk to store data. **Table variables are created in the tempdb database similar to temporary tables**. If memory is available, both table variables and temporary tables are created and processed while in memory (data cache).
+
+个人理解：表变量和临时表对象的信息都存储在tempdb中，但临时表会将数据放到硬盘上，而表变量优先将数据放到内存中，必要时才会放到硬盘上，所以小数据量的话表变量更有性能优势。
+
+SQL Server本身也在不断的进化，有关最新版本（这里是2019）中关于临时表和表变量的优化，可以参考：[Faster temp table and table variable by using memory optimization](https://docs.microsoft.com/en-us/sql/relational-databases/in-memory-oltp/faster-temp-table-and-table-variable-by-using-memory-optimization?redirectedfrom=MSDN&view=sql-server-ver15)
 
 #### 表类型
 
