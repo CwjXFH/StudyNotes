@@ -14,13 +14,13 @@ yum list installed | grep ftp
 yum install vsftpd ftp;
 ```
 
-ftp配置文件位于**/etc/vsftpd**目录下，/etc/vsftpd目录结构如下：
+ftp配置文件位于 **/etc/vsftpd** 目录下，/etc/vsftpd目录结构如下：
 
-/etc/vsftpd
-|-- chroot_list
-|-- ftpusers
-|-- user_list
-|-- vsftpd.conf
+/etc/vsftpd  
+|-- chroot_list  
+|-- ftpusers  
+|-- user_list  
+|-- vsftpd.conf  
 `-- vsftpd_conf_migrate.sh
 
 其中，vsftpd.conf是主配置文件；ftpusers是黑名单，该文件中的用户不允许登录系统；user_list是黑白名单，根据vsftpd.conf中的配置决定user_list是白名单还是黑名单；chroot_list，根据vsftpd.conf中的配置决定该文件中的用户在登录时是否执行chroot操作。
