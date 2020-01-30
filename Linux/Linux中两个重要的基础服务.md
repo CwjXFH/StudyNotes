@@ -314,6 +314,8 @@ AuthorizedKeysFile .ssh/authorized_keys
 
 [图解SSH原理](https://mp.weixin.qq.com/s?__biz=MzI3MTI2NzkxMA==&mid=2247487942&idx=1&sn=c46f510ff119bd0bdfe30689f0398854&chksm=eac530efddb2b9f9a8b1bf08454084d68b200dc7d4d999fa65d0d1ed69e78c386a26331533ea&mpshare=1&scene=1&srcid=0717tNKunOWIHONN04dsyFgm&sharer_sharetime=1565775380935&sharer_shareid=266dc9451fd28ecaad4697cc057771d2&key=f8a84d04edd3d2627c2d51c9c20364a8bd050f0a5ca9f829c5af707ece4562aacd7b4fdbbec1b7c84456c246b76557464b98cb1e0f54505984994db9af068c8e5f2bdd283b7ac92eac272e3a4432b665&ascene=1&uin=MTI5MDA0NDAwOA%3D%3D&devicetype=Windows+10&version=62060833&lang=zh_CN&pass_ticket=VfTZzibTuvTk6Edv7m13QePmjxNCsWe1iJ8Cn5e7klB%2B5DWIlJVve3rADmcSPJu6)
 
+[Linux使用ssh超时断开连接的真正原因](http://bluebiu.com/blog/linux-ssh-session-alive.html)
+
 [sftp与ftp是否没有区别？](https://www.zhihu.com/question/20402010)
 
 [Differences between SFTP and “FTP over SSH”](https://stackoverflow.com/questions/440463/differences-between-sftp-and-ftp-over-ssh)
