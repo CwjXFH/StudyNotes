@@ -1,4 +1,6 @@
-> 本文服务器基于centos7，客户端Windows10
+> 本文服务器基于centos7，客户端Windows10，文中讲述了FTP和SSH两个协议的基本配置和使用。
+
+[TOC]
 
 ## FTP
 
@@ -196,6 +198,9 @@ sftp>
 客户端公钥通常放在登录**用户的家目录**的**authorized_keys**文件中，完整路径：**~/.ssh/authorized_keys**
 
 ```shell
+# 生成密钥
+ssh-keygen -t rsa -f ~/.ssh/id_rsa
+
 # 将客户端生成的user用户的公钥发送到服务器上
 ssh-copy-id -i ~/.ssh/pub_key user@host
 ```
