@@ -11,12 +11,14 @@ async function PromiseAll(values) {
     // console.log('call promise all');
     let result = [];
     for (let i = 0; i < values.length; i++) {
+        // let value = values[i];
         await Promise.resolve(values[i]).then(value => {
-            (async function () {
-                let index = i;
-                let tmpResult = await value;
-                result[index] = tmpResult;
-            })();
+            // (function () {
+            let index = i;
+            // let tmpResult = await value;
+            // result[index] = tmpResult;
+            result[index] = value;
+            // })();
         });
     }
 
@@ -44,17 +46,33 @@ async function func2() {
     return 200;
 }
 
+
 (async function () {
     console.log('before await');
     let result = [];
-    result = await PromiseAll([func1(), func2()]);
+    // result = await PromiseAll([func1(), func2()]);
     // result = await Promise.all([func1(), func2()]);
 
-    // result[0] = await func1();
-    // result[1] = await func2();
+    result[0] = await func1();
+    result[1] = await func2();
     // console.log(`func1() instanceof Promise: ${func1() instanceof Promise}`);
     // func2();
     console.log('after await');
     console.log('result', result);
 })();
 console.log('end...');
+
+// (async function () {
+//     let pro = await Promise.resolve('reject')
+//         // .catch(reason => console.log(reason));
+//         .then(value => 'then ' + value);
+//     console.log();
+// })()
+
+
+
+// (async function () {
+//     let r = await Promise.resolve(100)
+//         .then(value => setTimeout(() => console.log(value), 2000));
+//     console.log(r);
+// })()
