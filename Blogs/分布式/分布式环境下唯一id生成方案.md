@@ -103,3 +103,4 @@ Twitter开源基于时间戳（精确到毫秒）的分布式id算法，使用�
 
 [Mongo ObjectId](https://docs.mongodb.com/manual/reference/method/ObjectId/)
 
+[微信序列号生成器架构设计及演变-InfoQ](https://www.infoq.cn/article/wechat-serial-number-generator-architecture/)
