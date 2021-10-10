@@ -75,3 +75,21 @@ class Person():
 
 ```
 
+
+
+#### UTC To Local
+
+```python
+import datetime
+
+def utc_to_local(utc_str: str) -> datetime.datetime:
+    utc_format = "%Y-%m-%dT%H:%M:%SZ"
+    utc_mill_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+    try:
+        utc_time: datetime.datetime = datetime.datetime.strptime(utc_str, utc_format)
+    except ValueError:
+        utc_time: datetime.datetime = datetime.datetime.strptime(utc_str, utc_mill_format)
+    localtime: datetime.datetime = utc_time + datetime.timedelta(hours=8)
+    return localtime.strftime('%Y-%m-%d %H:%M:%S.%f')
+```
+
