@@ -30,7 +30,7 @@ namespace RedisClient
 
         #region Lazy
         private IContravariantLazy<TOperator> CreateOperator<TOperator>() where TOperator : RedisOperator
-            => new MyLazy<TOperator>(() =>
+            => new ContravariantLazy<TOperator>(() =>
             {
                 var conn = connectionFactory.Create();
                 var db = conn.GetDatabase(optionsMonitor.CurrentValue.DbIndex);
@@ -42,9 +42,9 @@ namespace RedisClient
             T Value { get; }
         }
 
-        private class MyLazy<T> : Lazy<T>, IContravariantLazy<T>
+        private class ContravariantLazy<T> : Lazy<T>, IContravariantLazy<T>
         {
-            public MyLazy(Func<T> func, bool isThreadSafe)
+            public ContravariantLazy(Func<T> func, bool isThreadSafe)
                 : base(func, isThreadSafe) { }
 
             public new T Value => base.Value;
