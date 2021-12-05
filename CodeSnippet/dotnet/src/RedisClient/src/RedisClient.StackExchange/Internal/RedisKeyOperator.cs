@@ -1,7 +1,7 @@
 ﻿using RedisClient.Abstractions;
 using StackExchange.Redis;
 
-namespace RedisClient.Internal
+namespace RedisClient.StackExchange.Internal
 {
     internal class RedisKeyOperator : RedisOperator, IRedisKeyOperator
     {

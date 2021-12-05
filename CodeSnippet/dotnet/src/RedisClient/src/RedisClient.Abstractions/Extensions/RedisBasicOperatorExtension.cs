@@ -8,5 +8,6 @@ namespace RedisClient.Abstractions.Extensions
 {
     public static partial class RedisBasicOperatorExtension
     {
+        //public static void AddRedisClient(this IServiceCollection serviceCollection);
     }
 }

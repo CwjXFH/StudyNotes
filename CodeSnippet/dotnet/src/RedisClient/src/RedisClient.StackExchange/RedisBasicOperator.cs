@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using RedisClient.Abstractions;
-using RedisClient.Internal;
+using RedisClient.StackExchange.Internal;
 using RedisClient.Models.Options;
 using StackExchange.Redis;
 
-namespace RedisClient
+namespace RedisClient.StackExchange
 {
     public class RedisBasicOperator : IRedisBasicOperator
     {

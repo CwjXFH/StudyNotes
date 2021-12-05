@@ -1,7 +1,7 @@
 ﻿using RedisClient.Models.Exceptions;
 using StackExchange.Redis;
 
-namespace RedisClient.Internal
+namespace RedisClient.StackExchange.Internal
 {
     internal class RedisOperator
     {

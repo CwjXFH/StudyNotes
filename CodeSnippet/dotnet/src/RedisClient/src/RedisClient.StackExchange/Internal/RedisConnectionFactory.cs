@@ -3,7 +3,7 @@ using RedisClient.Abstractions;
 using RedisClient.Models.Options;
 using StackExchange.Redis;
 
-namespace RedisClient.Internal
+namespace RedisClient.StackExchange.Internal
 {
     internal class RedisConnectionFactory : IRedisConnectionFactory<ConnectionMultiplexer>, IDisposable
     {

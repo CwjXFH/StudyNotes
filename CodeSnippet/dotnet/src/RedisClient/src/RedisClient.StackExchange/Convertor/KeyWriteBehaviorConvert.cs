@@ -1,7 +1,7 @@
 ﻿using RedisClient.Models.Enums;
 using StackExchange.Redis;
 
-namespace RedisClient.Convertor
+namespace RedisClient.StackExchange.Convertor
 {
     public class KeyWriteBehaviorConvert
     {
