@@ -1,4 +1,6 @@
 ﻿using RedisClient.Abstractions;
+using RedisClient.Convertor;
+using RedisClient.Models.Enums;
 using StackExchange.Redis;
 using System.Text.Json;
 
@@ -9,35 +11,29 @@ namespace RedisClient.Internal
         public RedisStringOperator(IDatabase database)
             : base(database) { }
 
-        public async Task<bool> SetAsync(string key, string value)
+        public async Task<bool> SetAsync(string key, string value, TimeSpan? expiry, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None, CancellationToken cancellationToken = default)
         {
             ThrowIfKeyInvalid(key);
-            return await database.StringSetAsync(key, value);
+            var when = KeyWriteBehaviorConvert.ToWhen(writeBehavior);
+            return await database.StringSetAsync(key, value, expiry, when);
         }
 
-        public async Task<bool> SetAsync(string key, string value, TimeSpan expiry)
+        public async Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None, CancellationToken cancellationToken = default)
         {
-            ThrowIfKeyInvalid(key);
-            return await database.StringSetAsync(key, value, expiry);
+            var redisVal = JsonSerializer.Serialize(value);
+            return await SetAsync(key, redisVal, expiry, writeBehavior, cancellationToken);
         }
 
-        public async Task<string> GetAsync(string key)
+        public async Task<string> GetAsync(string key, CancellationToken cancellationToken = default)
         {
             ThrowIfKeyInvalid(key);
             return await database.StringGetAsync(key);
         }
 
-        public async Task<T> GetAsync<T>(string key, T defaultValue)
+        public async Task<T> GetAsync<T>(string key, T defaultValue, CancellationToken cancellationToken = default)
         {
-            ThrowIfKeyInvalid(key);
-            var value = await database.StringGetAsync(key);
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return defaultValue;
-            }
-            return JsonSerializer.Deserialize<T>(value) ?? defaultValue;
+            var redisVal = await GetAsync(key, cancellationToken);
+            return JsonSerializer.Deserialize<T>(redisVal) ?? defaultValue;
         }
-
-
     }
 }

@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RedisClient.Abstractions\RedisClient.Abstractions.csproj" />
-    <ProjectReference Include="..\RedisClient.Models\RedisClient.Models.csproj" />
   </ItemGroup>
 
 </Project>

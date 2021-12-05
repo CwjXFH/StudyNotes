@@ -8,16 +8,15 @@ namespace RedisClient.Internal
         public RedisKeyOperator(IDatabase database)
             : base(database) { }
 
-        public async Task<bool> ExistsAsync(string key)
+        public async Task<bool> ExistsAsync(string key, CancellationToken cancellationToken = default)
         {
             ThrowIfKeyInvalid(key);
             return await database.KeyExistsAsync(key);
         }
 
-        public async Task<bool> DeleteAsync(string key)
+        public async Task<bool> DeleteAsync(string key, CancellationToken cancellationToken = default)
         {
             ThrowIfKeyInvalid(key);
-
             return await database.KeyDeleteAsync(key);
         }
 

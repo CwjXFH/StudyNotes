@@ -24,7 +24,7 @@ namespace RedisClient.Internal
             });
         }
 
-        public async Task<ConnectionMultiplexer> CreateAsync()
+        public async Task<ConnectionMultiplexer> CreateAsync(CancellationToken cancellationToken = default)
         {
             if (redisConnection != null)
             {

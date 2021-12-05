@@ -3,7 +3,7 @@
     public interface IRedisConnectionFactory<TConn>
         where TConn : class
     {
-        Task<TConn> CreateAsync();
+        Task<TConn> CreateAsync(CancellationToken cancellationToken = default);
         TConn Create();
     }
 }

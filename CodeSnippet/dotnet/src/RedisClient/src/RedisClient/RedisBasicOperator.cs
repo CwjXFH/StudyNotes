@@ -8,8 +8,8 @@ namespace RedisClient
 {
     public class RedisBasicOperator : IRedisBasicOperator
     {
-        private IOptionsMonitor<RedisOptions> optionsMonitor;
-        private IRedisConnectionFactory<ConnectionMultiplexer> connectionFactory;
+        private readonly IOptionsMonitor<RedisOptions> optionsMonitor;
+        private readonly IRedisConnectionFactory<ConnectionMultiplexer> connectionFactory;
 
         private readonly IContravariantLazy<IRedisStringOperator> stringOperator;
         private readonly IContravariantLazy<IRedisKeyOperator> keyOperator;
