@@ -16,4 +16,10 @@
     <ProjectReference Include="..\RedisClient.Abstractions\RedisClient.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lua\String\GETEX.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

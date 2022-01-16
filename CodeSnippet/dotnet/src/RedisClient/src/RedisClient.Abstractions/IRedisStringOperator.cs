@@ -50,14 +50,17 @@ namespace RedisClient.Abstractions
         /// <returns>The length of the string after it was modified by the command.</returns>
         Task<long> SetRangeAsync(string key, uint offset, string value, CancellationToken cancellationToken = default);
         /// <summary>
-        /// Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive). 
-        /// Negative offsets can be used in order to provide an offset starting from the end of the string. 
-        /// So -1 means the last character, -2 the penultimate and so forth.
+        /// Sets the given keys to their respective values. MSET replaces existing values with new values. 
+        /// MSET is atomic, so all given keys are set at once.
         /// </summary>
-        /// <remarks>
-        /// The function handles out of range requests by limiting the resulting range to the actual length of the string.
-        /// </remarks>
-        Task<string> GetRangeAsync(string key, int start, int end, CancellationToken cancellationToken = default);
+        /// <returns>Always OK since MSET can't fail.</returns>
+        Task MSetAsync(IDictionary<string, string> keyValues, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Sets the given keys to their respective values. MSETNX will not perform any operation at all even if just a single key alread exists.
+        /// MSETNX is atomic, so all given keys are set at once.
+        /// </summary>
+        /// <returns>True if the all keys were set. False if no key was set(at least one key already existed).</returns>
+        Task<bool> MSetNXAsync(IDictionary<string, string> keyValues, CancellationToken cancellationToken = default);
         #endregion
 
         #region Read Operation
@@ -77,10 +80,32 @@ namespace RedisClient.Abstractions
         /// </exception>
         Task<T> GetAsync<T>(string key, T defaultValue, CancellationToken cancellationToken = default);
         /// <summary>
+        /// Returns the substring of the string value stored at key, determined by the offsets start and end (both are inclusive). 
+        /// Negative offsets can be used in order to provide an offset starting from the end of the string. 
+        /// So -1 means the last character, -2 the penultimate and so forth.
+        /// </summary>
+        /// <remarks>
+        /// The function handles out of range requests by limiting the resulting range to the actual length of the string.
+        /// </remarks>
+        Task<string> GetRangeAsync(string key, int start, int end, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Returns the values of all specified keys. 
+        /// </summary>
+        /// <remarks>
+        /// For every key that does not hold a string value or does not exist, the special value nil is returned.
+        /// Because of this, the operation never fails.
+        /// </remarks>
+        Task<OperationResult<IDictionary<string, string>>> MGetAsync(ICollection<string> keys, CancellationToken CancellationToken = default);
+        /// <summary>
         /// Returns the length of the string value stored at key. An error is returned when key holds a non-string value.
         /// </summary>
         /// <returns>The length of the string at key, or 0 when key does not exist.</returns>
         Task<long> StrLenAsync(string key, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// The LCS command implements the longest common subsequence algorithm.
+        /// </summary>
+        /// <returns></returns>
+        //Task<OperationResult<TResult>> LCSAsync<TResult>(string key1, string key2, bool onlyReturnMatchLen, bool returnIndex, long minMatchLen, bool withMatchLen, CancellationToken cancellationToken = default);
         #endregion
 
         #region Write & Read Operation
@@ -88,25 +113,25 @@ namespace RedisClient.Abstractions
         /// Set key to hold the string value. If key already holds a value, it is overwritten, regardless of its type. 
         /// Any previous time to live associated with the key is discarded on successful SET operation.
         /// </summary>
-        /// <param name="expiry">Set the specified expire time.</param>
+        /// <param name="keepttl">Retain the time to live associated with the key.</param>
         /// <param name="writeBehavior"><see cref="KeyWriteBehavior"/></param>
         /// <param name="returnOldValue">True return the old string stored at the key, or nil if key did not exist. Default is false.</param>
         /// <returns>True if value was set, otherwise false.</returns>
-        Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
+        Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
             , bool returnOldValue = false, CancellationToken cancellationToken = default);
         /// <summary>
         /// Set key to hold the value. If key already holds a value, it is overwritten, regardless of its type.
         /// Any previous time to live associated with the key is discarded on successful SET operation.
         /// </summary>
         /// <typeparam name="T">The type of value.</typeparam>
-        /// <param name="expiry">Set the specified expire time.</param>
+        /// <param name="keepttl">Retain the time to live associated with the key.</param>
         /// <param name="writeBehavior"><see cref="KeyWriteBehavior"/></param>
         /// <param name="returnOldValue">True return the old string stored at the key, or nil if key did not exist. Default is false.</param>
         /// <returns>True if value was set, otherwise false.</returns>
         /// <exception cref="System.NotSupportedException">
         /// There is no compatible System.Text.Json.Serialization.JsonConverter for TValue  or its serializable members.
         /// </exception>
-        Task<OperationResult<T>> SetAsync<T>(string key, T value, TimeSpan? expiry, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
+        Task<OperationResult<T>> SetAsync<T>(string key, T value, TimeSpan? expiry, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
             , bool returnOldValue = false, CancellationToken cancellationToken = default) where T : class;
         /// <summary>
         /// Get the value of key and delete the key.

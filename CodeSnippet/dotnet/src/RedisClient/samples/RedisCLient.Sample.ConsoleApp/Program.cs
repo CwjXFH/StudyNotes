@@ -22,12 +22,22 @@ var basicOperator = serviceProvider.GetService<IRedisBasicOperator>();
 ////Console.WriteLine(basicOperator.KeyOperator);
 ////Console.WriteLine(basicOperator.KeyOperator);
 
-await basicOperator!.StringOperator.SetAsync("key", "value", TimeSpan.FromMilliseconds(200));
-Console.WriteLine(await basicOperator.StringOperator.GetAsync("key", CancellationToken.None));
-Console.WriteLine(await basicOperator.KeyOperator.ExistsAsync("key", CancellationToken.None));
-Thread.Sleep(200);
-Console.WriteLine(await basicOperator.KeyOperator.ExistsAsync("key", CancellationToken.None));
+//await basicOperator!.StringOperator.SetAsync("key", "value", TimeSpan.FromMilliseconds(200));
+//Console.WriteLine(await basicOperator.StringOperator.GetAsync("key", CancellationToken.None));
+//Console.WriteLine(await basicOperator.KeyOperator.ExistsAsync("key", CancellationToken.None));
+//Thread.Sleep(200);
+//Console.WriteLine(await basicOperator.KeyOperator.ExistsAsync("key", CancellationToken.None));
 
-await basicOperator.StringOperator.SetRangeAsync("key", 1, "abc");
-var val = basicOperator.StringOperator.GetAsync("key", CancellationToken.None);
-Console.WriteLine(val);
+//await basicOperator.StringOperator.SetRangeAsync("key", 1, "abc");
+//var val = basicOperator.StringOperator.GetAsync("key", CancellationToken.None);
+//Console.WriteLine(val);
+
+var msetnxResult = await basicOperator.StringOperator.MSetNXAsync(new Dictionary<string, string>() { ["1"] = "1" });
+Console.WriteLine(msetnxResult);
+//msetnxResult = await basicOperator.StringOperator.MSetNXAsync(new Dictionary<string, string>() { ["1"] = "1", ["2"] = "2" });
+//Console.WriteLine(msetnxResult);
+////await basicOperator.StringOperator.MSetAsync(new Dictionary<string, string>() { ["1"] = "1", ["2"] = "2" });
+//var mgetResult = await basicOperator.StringOperator.MGetAsync(new[] { "1", "2" });
+//Console.WriteLine(mgetResult.Data.Count);
+var getexResult = await basicOperator.StringOperator.GetEXAsync("1", TimeSpan.FromSeconds(100));
+Console.WriteLine(getexResult);
