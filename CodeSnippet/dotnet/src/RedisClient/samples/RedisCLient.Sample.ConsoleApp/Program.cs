@@ -2,6 +2,8 @@
 using RedisClient.Abstractions;
 using RedisClient.StackExchange.Extensions;
 using RedisClient.Models.Options;
+using RedisClient.Models.Enums;
+using StackExchange.Redis;
 
 var serviceCollection = new ServiceCollection();
 serviceCollection.Configure<RedisOptions>(opt =>
@@ -41,3 +43,6 @@ Console.WriteLine(msetnxResult);
 //Console.WriteLine(mgetResult.Data.Count);
 var getexResult = await basicOperator.StringOperator.GetEXAsync("1", TimeSpan.FromSeconds(100));
 Console.WriteLine(getexResult);
+
+//var oldVal = await basicOperator.StringOperator.SetAsync("100", "1val", writeBehavior: KeyWriteBehavior.None, returnOldValue: false);
+//Console.WriteLine(oldVal.Successed);

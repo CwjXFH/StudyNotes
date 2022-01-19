@@ -1,4 +1,4 @@
-﻿namespace RedisClient.Models
+﻿namespace RedisClient.Models.RedisResults
 {
     public readonly struct OperationResult
     {

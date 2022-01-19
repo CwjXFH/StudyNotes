@@ -18,7 +18,10 @@
 
   <ItemGroup>
     <None Update="Lua\String\GETEX.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\String\SET.lua">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

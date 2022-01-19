@@ -1,7 +1,8 @@
 ﻿using RedisClient.Abstractions;
-using RedisClient.Models;
+using RedisClient.Models.Consts;
 using RedisClient.Models.Enums;
-using RedisClient.StackExchange.Convertor;
+using RedisClient.Models.Exceptions;
+using RedisClient.Models.RedisResults;
 using StackExchange.Redis;
 using System.Text.Json;
 
@@ -137,21 +138,73 @@ namespace RedisClient.StackExchange.Internal
         #endregion
 
         #region Write & Read Operation
-        public async Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
+        public async Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry = null, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
             , bool returnOldValue = false, CancellationToken cancellationToken = default)
         {
-            if (returnOldValue)
+            ThrowIfKeyInvalid(key);
+            if (returnOldValue && writeBehavior == KeyWriteBehavior.NotExists)
             {
-                throw new NotSupportedException();
+                throw new RedisCommandSyntaxErrorException("syntax error");
             }
+
+            var expiryArg = "";
+            double expiryVal = -1;
             if (keepttl)
             {
-                throw new NotSupportedException();
+                expiryArg = "KEEPTTL";
             }
-            ThrowIfKeyInvalid(key);
-            var when = KeyWriteBehaviorConvert.ToWhen(writeBehavior);
-            var writeResult = await database.StringSetAsync(key, value, expiry, when);
-            return new OperationResult<string>(writeResult, "");
+            else if (expiry.HasValue)
+            {
+                expiryArg = "PX";
+                expiryVal = expiry.Value.TotalMilliseconds;
+            }
+            var writeBehave = "";
+            if (writeBehavior == KeyWriteBehavior.Exists)
+            {
+                writeBehave = "XX";
+            }
+            else if (writeBehavior == KeyWriteBehavior.NotExists)
+            {
+                writeBehave = "NX";
+            }
+            var get = returnOldValue ? "GET" : "";
+            var parameters = new { key = (RedisKey)key, value, expiryArg, expiryVal, writeBehave, get };
+
+            var luaScript = LuaScript.Prepare(SETLuaScript);
+            var redisVal = await database.ScriptEvaluateAsync(luaScript, parameters);
+
+            /*
+             Simple string reply: OK if SET was executed correctly.
+             Null reply: (nil) if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.
+             If the command is issued with the GET option, the above does not apply. It will instead reply as follows, regardless if the SET was actually performed:
+             Bulk string reply: the old string value stored at key.
+             Null reply: (nil) if the key did not exist.
+             */
+            if (returnOldValue)
+            {
+                if (redisVal.Type == ResultType.BulkString)
+                {
+                    if (redisVal.IsNull && writeBehavior == KeyWriteBehavior.Exists)
+                    {
+                        return new OperationResult<string>(false, "");
+                    }
+                    return new OperationResult<string>(true, redisVal.IsNull ? "" : redisVal.ToString()!);
+                }
+            }
+            else
+            {
+                if (redisVal.Type == ResultType.SimpleString && redisVal.IsNull == false
+                    && string.Equals(redisVal.ToString(), RedisReturnValue.OK, StringComparison.OrdinalIgnoreCase))
+                {
+                    return new OperationResult<string>(true, "");
+                }
+                else if (redisVal.Type == ResultType.BulkString && redisVal.IsNull)
+                {
+                    return new OperationResult<string>(false, "");
+                }
+            }
+
+            throw new RedisUnsupportedReturnValueException($"GET return type is {redisVal.Type}, value is {redisVal.IsNull}");
         }
 
         public async Task<OperationResult<T>> SetAsync<T>(string key, T value, TimeSpan? expiry, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
@@ -170,9 +223,8 @@ namespace RedisClient.StackExchange.Internal
 
         public async Task<string> GetEXAsync(string key, TimeSpan? expiry, CancellationToken cancellationToken = default)
         {
-            using var fs = File.Open("./Lua/String/GETEX.lua", FileMode.Open);
-            using var sr = new StreamReader(fs);
-            var lua = sr.ReadToEnd();
+            ThrowIfKeyInvalid(key);
+            var luaScript = LuaScript.Prepare(GETEXLuaScript);
 
             var expiryArg = "PERSIST";
             double expiryVal = -1;
@@ -182,7 +234,7 @@ namespace RedisClient.StackExchange.Internal
                 expiryVal = expiry.Value.TotalMilliseconds;
             }
 
-            var redisVal = await database.ScriptEvaluateAsync(lua, new RedisKey[] { key }, new RedisValue[] { expiryArg, expiryVal });
+            var redisVal = await database.ScriptEvaluateAsync(luaScript, new { key = (RedisKey)key, expiryArg, expiryVal });
             if (redisVal == null || redisVal.IsNull)
             {
                 return "";
@@ -194,5 +246,57 @@ namespace RedisClient.StackExchange.Internal
         }
         #endregion
 
+        #region lua scripts
+        private const string SETLuaScript = @"local command = 'SET'
+if @get == 'GET' then
+    if @expiryArg == 'KEEPTTL' then
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @expiryArg, @writeBehave, @get)
+        else
+            return redis.pcall(command, @key, @value, @expiryArg, @get)
+        end
+    elseif @expiryArg ~= '' then
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @expiryArg, @expiryVal,
+                               @writeBehave, @get)
+        else
+            return redis.pcall(command, @key, @value, @expiryArg, @expiryVal, @get)
+        end
+    else
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @writeBehave, @get)
+        else
+            return redis.pcall(command, @key, @value, @get)
+        end
+    end
+else
+    if @expiryArg == 'KEEPTTL' then
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @expiryArg, @writeBehave)
+        else
+            return redis.pcall(command, @key, @value, @expiryArg)
+        end
+    elseif @expiryArg ~= '' then
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @expiryArg, @expiryVal,
+                               @writeBehave)
+        else
+            return redis.pcall(command, @key, @value, @expiryArg, @expiryVal)
+        end
+    else
+        if @writeBehave ~= '' then
+            return redis.pcall(command, @key, @value, @writeBehave)
+        else
+            return redis.pcall(command, @key, @value)
+        end
+    end
+end";
+
+        private const string GETEXLuaScript = @"if (@expiryArg == 'PERSIST') then
+    return redis.pcall('GETEX', @key, @expiryArg)
+else
+    return redis.pcall('GETEX', @key, @expiryArg, @expiryVal)
+end";
+        #endregion
     }
 }

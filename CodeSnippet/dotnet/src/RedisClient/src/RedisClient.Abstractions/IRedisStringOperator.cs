@@ -1,5 +1,5 @@
-﻿using RedisClient.Models;
-using RedisClient.Models.Enums;
+﻿using RedisClient.Models.Enums;
+using RedisClient.Models.RedisResults;
 
 namespace RedisClient.Abstractions
 {
@@ -116,8 +116,14 @@ namespace RedisClient.Abstractions
         /// <param name="keepttl">Retain the time to live associated with the key.</param>
         /// <param name="writeBehavior"><see cref="KeyWriteBehavior"/></param>
         /// <param name="returnOldValue">True return the old string stored at the key, or nil if key did not exist. Default is false.</param>
-        /// <returns>True if value was set, otherwise false.</returns>
-        Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
+        /// <returns>
+        /// True if SET was executed correctly.
+        /// False if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.
+        /// If the command is issued with the GET option, the above does not apply. It will instead reply as follows, regardless if the SET was actually performed:
+        /// True the old string value stored at key.
+        /// If the key did not exist, true if SET operation was performed, otherwise false.
+        /// </returns>
+        Task<OperationResult<string>> SetAsync(string key, string value, TimeSpan? expiry = null, bool keepttl = false, KeyWriteBehavior writeBehavior = KeyWriteBehavior.None
             , bool returnOldValue = false, CancellationToken cancellationToken = default);
         /// <summary>
         /// Set key to hold the value. If key already holds a value, it is overwritten, regardless of its type.
@@ -145,5 +151,15 @@ namespace RedisClient.Abstractions
         Task<string> GetEXAsync(string key, TimeSpan? expiry, CancellationToken cancellationToken = default);
         #endregion
 
+        #region 
+        [Obsolete("Use SET instead of", true)]
+        void SetEXAsync() { }
+        [Obsolete("Use SET instead of", true)]
+        void SetNXAsync() { }
+        [Obsolete("Use SET instead of", true)]
+        void PSetEXAsync() { }
+        [Obsolete("Use SET instead of", true)]
+        void GetSetAsync() { }
+        #endregion
     }
 }
