@@ -16,7 +16,15 @@ builder.Services.Configure<EFCoreSlowQueryOptions>(builder.Configuration.GetSect
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseEFCoreSlowQuery();
+
+// Configure via configuration file
+//app.UseEFCoreSlowQuery();
+// Configuration via code
+app.UseEFCoreSlowQuery(opt =>
+{
+    opt.ServiceName = "DemoApi";
+    opt.SlowQueryThresholdMilliseconds = 20;
+});
 app.MapControllers();
 
 app.Run();

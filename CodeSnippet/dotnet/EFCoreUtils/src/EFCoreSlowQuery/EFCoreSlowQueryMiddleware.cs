@@ -39,6 +39,7 @@ namespace EFCoreExtensions.Middlewares
             var currentOptions = optionsMonitor.CurrentValue;
             optionsMonitor.OnChange(opt =>
             {
+                currentOptions.ServiceName = opt.ServiceName;
                 currentOptions.RecordSlowQueryLog = opt.RecordSlowQueryLog;
                 currentOptions.SlowQueryThresholdMilliseconds = opt.SlowQueryThresholdMilliseconds;
                 currentOptions.SlowQueryThresholdMilliseconds = opt.SlowQueryThresholdMilliseconds;
@@ -150,7 +151,7 @@ namespace EFCoreExtensions.Middlewares
 
             private void RecordSlowQueryLog(CommandExecutedEventData eventData)
             {
-                var msg = $"{EFCoreSlowQueryTag} duration: {eventData.Duration.Milliseconds} {Environment.NewLine}SQL: {eventData.Command.CommandText}";
+                var msg = $"{EFCoreSlowQueryTag} service: {_options.ServiceName} duration: {eventData.Duration.Milliseconds} {Environment.NewLine}SQL: {eventData.Command.CommandText}";
                 _logger.LogWarning(msg);
             }
 
@@ -189,6 +190,8 @@ namespace EFCoreExtensions.Middlewares
         /// The section name in configures file, like appsettings.json.
         /// </summary>
         public const string OptionsName = "EFCoreSlowQuery";
+
+        public string ServiceName { set; get; } = "";
 
         private int _slowQueryThresholdMilliseconds;
 
