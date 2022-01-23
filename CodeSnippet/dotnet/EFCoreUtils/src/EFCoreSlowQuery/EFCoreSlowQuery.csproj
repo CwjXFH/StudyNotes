@@ -1,16 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
-		<!--        <TargetFramework>netstandard2.0</TargetFramework>-->
-		<PackageId>EasonChi.Net.EFCoreSlowQuery</PackageId>
-		<Version>0.0.1-alpha</Version>
-		<Authors>Eason Chi</Authors>
-		<Description>Record EFCore slow query.</Description>
+		<!--<TargetFramework>net6.0</TargetFramework>-->
+		<PackageId>WJChi.Net.EFCoreSlowQuery</PackageId>
+		<Version>0.0.1</Version>
+		<Authors>WenJun Chi</Authors>
+		<Description>A middleware used for log EFCore slow query.</Description>
+		<PackageTags>EFCore;SlowQuery</PackageTags>
+		<RepositoryUrl>https://github.com/CwjXFH/StudyNotes/blob/master/CodeSnippet/dotnet/EFCoreUtils</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 		<!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 
 	<PropertyGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
@@ -25,6 +36,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -37,6 +49,10 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="packages\" />
 	</ItemGroup>
 
 </Project>
