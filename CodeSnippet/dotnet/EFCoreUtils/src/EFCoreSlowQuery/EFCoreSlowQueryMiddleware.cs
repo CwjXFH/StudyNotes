@@ -42,7 +42,6 @@ namespace EFCoreExtensions.Middlewares
                 currentOptions.ServiceName = opt.ServiceName;
                 currentOptions.RecordSlowQueryLog = opt.RecordSlowQueryLog;
                 currentOptions.SlowQueryThresholdMilliseconds = opt.SlowQueryThresholdMilliseconds;
-                currentOptions.SlowQueryThresholdMilliseconds = opt.SlowQueryThresholdMilliseconds;
             });
 
             RegisterObserver(logger, currentOptions);
@@ -82,14 +81,6 @@ namespace EFCoreExtensions.Middlewares
                 _slowQueryObserver = slowQueryObserver;
             }
 
-            public void OnCompleted()
-            {
-            }
-
-            public void OnError(Exception error)
-            {
-            }
-
             public void OnNext(DiagnosticListener value)
             {
                 if (value.Name == DbLoggerCategory.Name)
@@ -97,6 +88,17 @@ namespace EFCoreExtensions.Middlewares
                     value.Subscribe(_slowQueryObserver);
                 }
             }
+
+            #region ignores
+            public void OnCompleted()
+            {
+            }
+
+            public void OnError(Exception error)
+            {
+            }
+            #endregion
+
         }
 
 #if NETSTANDARD2_0
@@ -105,11 +107,6 @@ namespace EFCoreExtensions.Middlewares
         private class SlowQueryObserver : IObserver<KeyValuePair<string, object?>>
 #endif
         {
-            /// <summary>
-            /// A tag used in log.
-            /// </summary>
-            private const string EFCoreSlowQueryTag = "[EFCoreSlowQuery]";
-
             private readonly ILogger _logger;
             private readonly EFCoreSlowQueryOptions _options;
 
@@ -117,10 +114,6 @@ namespace EFCoreExtensions.Middlewares
             {
                 _logger = logger;
                 _options = options;
-            }
-
-            public void OnCompleted()
-            {
             }
 
             public void OnError(Exception error)
@@ -149,9 +142,10 @@ namespace EFCoreExtensions.Middlewares
                 }
             }
 
+            #region private
             private void RecordSlowQueryLog(CommandExecutedEventData eventData)
             {
-                var msg = $"{EFCoreSlowQueryTag} service: {_options.ServiceName} duration: {eventData.Duration.Milliseconds} {Environment.NewLine}SQL: {eventData.Command.CommandText}";
+                var msg = $"[EFCoreSlowQuery] service: {_options.ServiceName} duration: {eventData.Duration.Milliseconds} {Environment.NewLine}SQL: {eventData.Command.CommandText}";
                 _logger.LogWarning(msg);
             }
 
@@ -167,6 +161,14 @@ namespace EFCoreExtensions.Middlewares
                     _logger.LogError("Exec SQL error, and no SQL is captured.");
                 }
             }
+            #endregion
+
+            #region ignores
+            public void OnCompleted()
+            {
+            }
+            #endregion
+
         }
     }
 

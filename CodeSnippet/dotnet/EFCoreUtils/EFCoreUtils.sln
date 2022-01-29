@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreSlowQuery", "src\EFCo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{00291AED-2FA5-4509-858D-AF46BAC67474}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "samples\Api\Api.csproj", "{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "samples\Api\Api.csproj", "{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{49A8313F-2257-461F-A39D-041A98F9C99C}"
+	ProjectSection(SolutionItems) = preProject
+		build\pack.bash = build\pack.bash
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
