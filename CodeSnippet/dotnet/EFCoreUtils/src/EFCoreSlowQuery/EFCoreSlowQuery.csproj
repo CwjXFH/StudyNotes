@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
 		<!--<TargetFramework>net6.0</TargetFramework>-->
 		<PackageId>WJChi.Net.EFCoreSlowQuery</PackageId>
-		<Version>0.0.1</Version>
+		<Version>$(Version)</Version>
 		<Authors>WenJun Chi</Authors>
 		<Description>A middleware used for log EFCore slow query.</Description>
 		<PackageTags>EFCore;SlowQuery</PackageTags>

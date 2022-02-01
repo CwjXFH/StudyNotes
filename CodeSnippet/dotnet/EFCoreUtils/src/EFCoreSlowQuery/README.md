@@ -1,4 +1,12 @@
-﻿This is a middleware used for log EFCore slow query.
+﻿## Summary
+
+This is a middleware used for log EFCore slow query.  
+
+## Release notes
+
+Click [here](https://github.com/CwjXFH/StudyNotes/blob/master/CodeSnippet/dotnet/EFCoreUtils/src/EFCoreSlowQuery/RELEASE-NOTES.md) for release notes.
+
+## How to use
 
 A complete example can be found [here](https://github.com/CwjXFH/StudyNotes/tree/master/CodeSnippet/dotnet/EFCoreUtils/samples/Api).
 
@@ -46,3 +54,4 @@ app.UseEFCoreSlowQuery();
     }
 }
 ```
+
