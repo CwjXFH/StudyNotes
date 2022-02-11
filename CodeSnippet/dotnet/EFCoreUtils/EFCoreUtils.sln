@@ -13,8 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "samples\Api\Api.cspr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{49A8313F-2257-461F-A39D-041A98F9C99C}"
 	ProjectSection(SolutionItems) = preProject
+		build\common.props = build\common.props
 		build\pack.bash = build\pack.bash
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreExtensions", "src\EFCoreExtensions\EFCoreExtensions.csproj", "{CAF1A37B-480A-4392-A8B1-76A61AE259BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +33,10 @@ Global
 		{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF1A37B-480A-4392-A8B1-76A61AE259BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF1A37B-480A-4392-A8B1-76A61AE259BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF1A37B-480A-4392-A8B1-76A61AE259BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF1A37B-480A-4392-A8B1-76A61AE259BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{24AE51CC-CAE0-4F48-B972-55229790C846} = {CE527EB7-3E18-4DD0-B9FC-197698E903BE}
 		{5AA30148-D1A5-4FDF-A7B1-4B63A1EB6F6C} = {00291AED-2FA5-4509-858D-AF46BAC67474}
+		{CAF1A37B-480A-4392-A8B1-76A61AE259BB} = {CE527EB7-3E18-4DD0-B9FC-197698E903BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78A63784-6257-4094-A895-4C3BE9422375}
