@@ -1,1 +1,6 @@
-dotnet pack -p:Version=0.0.3 ..\src\EFCoreSlowQuery\EFCoreSlowQuery.csproj --include-symbols  --output ..\pkgs\
+@echo off
+SET version=%1
+echo package version is %version%
+dotnet pack -p:Version=%version% ..\src\EFCoreSlowQuery\EFCoreSlowQuery.csproj --include-symbols  --output ..\pkgs\
+
+pause
