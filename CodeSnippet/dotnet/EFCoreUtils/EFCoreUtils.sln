@@ -14,7 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{49A8313F-2257-461F-A39D-041A98F9C99C}"
 	ProjectSection(SolutionItems) = preProject
 		build\common.props = build\common.props
-		build\pack.bash = build\pack.bash
+		build\efcore_slowquery_pack.bat = build\efcore_slowquery_pack.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreExtensions", "src\EFCoreExtensions\EFCoreExtensions.csproj", "{CAF1A37B-480A-4392-A8B1-76A61AE259BB}"

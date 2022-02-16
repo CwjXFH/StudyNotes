@@ -1,5 +1,5 @@
 using Api.Database;
-using EFCoreExtensions.Middlewares;
+using EFCoreSlowQuery;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +22,7 @@ var app = builder.Build();
 // Configuration via code
 app.UseEFCoreSlowQuery(opt =>
 {
-    opt.ServiceName = "DemoApi";
+    opt.ServiceName = "DemoApi2";
     opt.SlowQueryThresholdMilliseconds = 20;
 });
 app.MapControllers();
