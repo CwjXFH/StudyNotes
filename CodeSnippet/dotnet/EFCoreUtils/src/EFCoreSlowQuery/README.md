@@ -12,7 +12,7 @@ A complete example can be found [here](https://github.com/CwjXFH/StudyNotes/tree
 
 ```c#
 using Api.Database;
-using EFCoreExtensions.Middlewares;
+using EFCoreExtensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
