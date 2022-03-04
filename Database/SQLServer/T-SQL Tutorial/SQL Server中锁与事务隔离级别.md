@@ -190,9 +190,9 @@ SQL Server中提供了四种不依赖行版本控制的事务隔离级别，及�
 以上是自己《SQL Server2012 T-SQL基础教程》事务与并发处理一章的读书笔记，错误之处望各位多多指教。
 
 ### 推荐阅读
-[数据库村的旺财和小强 ](https://mp.weixin.qq.com/s/bM_g6Z0K93DNFycvfJIbwQ)
-[sql server锁知识及锁应用](https://blog.csdn.net/huwei2003/article/details/4047191)
-[数据库两大神器【索引和锁】](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484292&idx=1&sn=27c9ae4945b76540ca9e5aad88576729&chksm=ebd74285dca0cb9352ad63e25de0e7657909e2a39dab7da43b3aca13d38a12a757ab5a9f3e13#rd)
+[数据库村的旺财和小强 ](https://mp.weixin.qq.com/s/bM_g6Z0K93DNFycvfJIbwQ)  
+[sql server锁知识及锁应用](https://blog.csdn.net/huwei2003/article/details/4047191)  
+[数据库两大神器【索引和锁】](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484292&idx=1&sn=27c9ae4945b76540ca9e5aad88576729&chksm=ebd74285dca0cb9352ad63e25de0e7657909e2a39dab7da43b3aca13d38a12a757ab5a9f3e13#rd)  
 [SET TRANSACTION ISOLATION LEVEL (Transact-SQL)](https://docs.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql?view=sql-server-2017)
 
 ### 书目推荐
