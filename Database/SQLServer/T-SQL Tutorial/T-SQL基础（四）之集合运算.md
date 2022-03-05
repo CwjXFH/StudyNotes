@@ -269,4 +269,4 @@ T-SQL未提供对`INTERSECT ALL`与`EXCEPT ALL`的支持，我们可以通过开
 
 ## 推荐阅读
 
-[T-SQL基础（三）之子查询与表表达式](https://www.cnblogs.com/Cwj-XFH/p/10012936.html)
+[T-SQL基础（三）之子查询与表表达式](./T-SQL基础（三）之子查询与表表达式.md)

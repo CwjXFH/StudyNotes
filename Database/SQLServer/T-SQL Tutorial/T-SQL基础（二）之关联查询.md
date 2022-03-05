@@ -239,6 +239,6 @@ SQL（任何代码）的书写应将语义清晰作为第一追求，而不是�
 
 ## 推荐阅读
 
-[T-SQL基础（一）之简单查询](https://www.cnblogs.com/Cwj-XFH/p/9898835.html)
+[T-SQL基础（一）之简单查询](./T-SQL基础（一）之简单查询.md)
 
 [What is the difference between “INNER JOIN” and “OUTER JOIN”?](https://stackoverflow.com/questions/38549/what-is-the-difference-between-inner-join-and-outer-join)

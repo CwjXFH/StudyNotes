@@ -265,7 +265,7 @@ SQL Server默认情况下，查询语句会申请共享锁。共享锁可以阻�
 
 [NULL and UNKNOWN (Transact-SQL)](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/null-and-unknown-transact-sql?view=sql-server-2017)
 
-[SQL Server中锁与事务隔离级别](https://www.jianshu.com/p/9233e5f12388)
+[SQL Server中锁与事务隔离级别](./SQL%20Server中锁与事务隔离级别.md)
 
 [数据库两大神器【索引和锁】](https://cloud.tencent.com/developer/article/1170837)
 

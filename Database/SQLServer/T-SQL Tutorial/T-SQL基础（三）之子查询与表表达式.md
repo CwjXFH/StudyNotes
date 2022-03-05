@@ -198,4 +198,4 @@ DROP VIEW ViewName;
 
 ## 推荐阅读
 
-[T-SQL基础（二）之关联查询](https://www.cnblogs.com/Cwj-XFH/p/9960822.html)
+[T-SQL基础（二）之关联查询](./T-SQL基础（二）之关联查询.md)

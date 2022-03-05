@@ -347,8 +347,8 @@ SQL Server Management插件——SQL Prompt在执行`DELETE、UPDATE`但没有�
 
 ## 推荐阅读
 
-[T-SQL基础（一）之简单查询](https://www.cnblogs.com/Cwj-XFH/p/9898835.html)
+[T-SQL基础（一）之简单查询](./T-SQL基础（一）之简单查询.md)
 
-[SQL Server中锁与事务隔离级别](https://www.cnblogs.com/Cwj-XFH/p/9313882.html)
+[SQL Server中锁与事务隔离级别](./SQL%20Server中锁与事务隔离级别.md)
 
 [SELECT INTO 和 INSERT INTO SELECT 两种表复制语句](https://www.cnblogs.com/freshman0216/archive/2008/08/15/1268316.html)
