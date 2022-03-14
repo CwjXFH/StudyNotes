@@ -18,11 +18,11 @@ Table Hints主要影响DML的行为
 
 [Hints (Transact-SQL)](https://docs.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql?view=sql-server-ver15)  
 
-[Transaction locking and row versioning guide](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver15#lock_modes)
+[Transaction locking and row versioning guide](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver15#lock_modes)  
 
-[All about locking in SQL Server](https://www.sqlshack.com/locking-sql-server/)
+[All about locking in SQL Server](https://www.sqlshack.com/locking-sql-server/)  
 
-[SQL Server and Azure SQL index architecture and design guide]([SQL Server and Azure SQL index architecture and design guide - SQL Server | Microsoft Docs](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-index-design-guide?view=sql-server-ver15))
+[SQL Server and Azure SQL index architecture and design guide](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-index-design-guide?view=sql-server-ver15)  
 
 [SQL Server中锁与事务隔离级别](./SQL%20Server中锁与事务隔离级别.md)  
 
