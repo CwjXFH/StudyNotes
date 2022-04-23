@@ -4,6 +4,8 @@
 
 ## binlog
 
+Server层
+
 逻辑日志
 
 数据通过追加方式写入日志文件
@@ -21,6 +23,8 @@
 ## [InnoDB](https://dev.mysql.com/doc/refman/8.0/en/innodb-architecture.html)
 
 #### Redo Log
+
+InnoDB层
 
 物理日志
 
