@@ -41,7 +41,7 @@ rabbitmqctl join_cluster --ram r1@node1
 rabbitmqctl start_app
 ```
 重复执行上述命令可以添加第3个、第4个...节点到集群中：
-![](./rabbitmq_cluster_nodes.png)
+![](./imgs/rabbitmq_cluster_nodes.png)
 
 需要注意的是，对于默认类型的队列(classic queue)，rabbitmq集群中队列的数据只存于一个节点上，若该节点挂掉，那么消费者就无法继续获取队列中的数据了，为避免这种情况可以使用[quorum queue](https://www.rabbitmq.com/quorum-queues.html)。
 
