@@ -10,7 +10,9 @@ Hints是SQL Server查询处理器为CRUD操作（SELECT、INSERT、UPDATE、DELE
 
 ### Table Hints
 
-Table Hints主要影响DML的行为
+Table Hints主要影响DML(INSERT,DELETE,UPDATE,SELECT,MERGE)的行为，Table Hints在FROM子句中指定，并且只影响当前FROM语句引用的表或视图。  
+Table Hints语法格式为：`WITH(<table_hint> [,...])`，有些版本的SQL Server可以省略WITH关键字，但不推荐这种做法。  
+
 
 
 
