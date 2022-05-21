@@ -45,5 +45,9 @@ rabbitmqctl start_app
 
 需要注意的是，对于默认类型的队列(classic queue)，rabbitmq集群中队列的数据只存于一个节点上，若该节点挂掉，那么消费者就无法继续获取队列中的数据了，为避免这种情况可以使用[quorum queue](https://www.rabbitmq.com/quorum-queues.html)。
 
+
+
+>  [本地创建rabbitmq集群脚本](./rabbit_cluster.sh)
+
 ### 节点离开集群
 和加入集群的步骤一样，节点离开集群也需要`stop_app`、`reset`、`start_app`三步，若直接将容器删除，集群会认为该节点故障，并不会将该节点信息从集群中删除。
