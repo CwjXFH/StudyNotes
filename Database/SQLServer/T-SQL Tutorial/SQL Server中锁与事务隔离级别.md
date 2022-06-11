@@ -99,7 +99,9 @@ UPDATE A SET Name='' WHERE Id=7;
 --这就会导致幻读问题，可参考MySQL间隙锁（GAP）
 INSERT INTO A(Id,Name) VALUES(7,'5');
 ```
-该隔离级别下可以避免更新丢失问题，但会产生**幻读**，即同一事务两次相同条件的查询之间插入了新数据，导致第二次查询获取到了新的数据。
+该隔离级别下可以避免更新丢失问题，但会产生**幻读**，即同一事务两次相同条件的查询之间插入了新数据，导致第二次查询获取到了新的数据。另外注意，MySQL在此隔离级别下存在更新丢失问题：
+
+> [MySQL :: Re: does repeatable read prevent lost update with pessimistic locking?](https://forums.mysql.com/read.php?22,56420,57733)
 
 ### SERIALIZABLE
 
