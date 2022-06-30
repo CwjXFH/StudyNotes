@@ -8,7 +8,9 @@ overlay网络可以将多个Docker daemon hosts连接到一起，实现swarm ser
 
 除overlay和bridge之外还有，docker内置网络驱动还有：
 
-none：表示禁用网络，该类型在swarm中不允许使用; host: 表示移除独立运行的容器和Docker host之间的网络隔离，直接使用host的网络。ipvlan、macvlan、network plugins等。
+none：表示禁用网络，该类型在swarm中不允许使用;   
+host: 表示移除独立运行的容器和Docker host之间的网络隔离，直接使用host的网络;  
+其它：ipvlan、macvlan、network plugins等。
 
 
 ### 作用域
@@ -31,7 +33,7 @@ Docker会为每个网络分配一个私有的IP池，容器连到网络时就从
 
 1. **ingress network**
 
-   ingress是带有负载均衡功能的bridge网络，如果一个节点收到了请求，相应的容器不在当前节点上，那么该请求会被路由到运行所需容器的节点上：
+   ingress是带有负载均衡功能的overlay网络，如果一个节点收到了请求，相应的容器不在当前节点上，那么该请求会被路由到运行所需容器的节点上：
 
    ![](./imgs/ingress-routing-mesh.png)
 
