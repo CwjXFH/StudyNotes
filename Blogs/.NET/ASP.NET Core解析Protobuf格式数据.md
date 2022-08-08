@@ -2,9 +2,17 @@ ASP.NET Core通过[IInputFormatter](https://docs.microsoft.com/en-us/dotnet/api/
 
 
 
+## 两个Nuget包
+
+谷歌提供了[Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf)包用于解析Protocol Buffers数据，包括和json格式互转；[Grpc.Tools](https://www.nuget.org/packages/Grpc.Tools/#readme-body-tab)包可根据proto文件在编译时生成对应的c#/c++文件。
+
+
+
 ## ASP.NET Core解析Protocol Buffers
 
-ASP.NET Core默认只支持对`application/json`的解析，要解析protobuf格式数据，需要引入nuget包：[AspCoreProtobufFormatters](https://github.com/jamcar23/AspCoreProtobufFormatters)，该包`1.0.0`版本默认不支持`application/json`格式，可以通过扩展来支持：
+ASP.NET Core默认只支持对`application/json`的解析，要解析protobuf格式数据，需要引入nuget包：[AspCoreProtobufFormatters](https://github.com/jamcar23/AspCoreProtobufFormatters)，该包依赖`Google.Protobuf`包解析protobuf格式数据。
+
+此外，通过`Grpc.Tools`生成的C#类型中，集合类型的属性是只读的，导致ASP.NET Core中默认的json formatter在进行模型绑定时，无法给集合类行属性赋值。`AspCoreProtobufFormatters`包当前版本（`1.0.0`版本）默认不支持`application/json`格式，可以通过扩展来支持：
 
 ```c#
 internal static class HttpContentType
@@ -27,6 +35,48 @@ internal class ProtobufApplicationJsonFormatter : ProtobufJsonFormatter
     => (true, Encoding.UTF8.GetBytes(ProtoModelTypeRegister.JsonFormatter.Format(message)));
 }
 ```
+
+将protobuf格式（IMessage类型）数据序列化为json格式时，需要将先注册相应的类型：
+
+```c#
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
+
+namespace Models
+{
+    public static class ProtoModelTypeRegister
+    {
+        public static readonly JsonFormatter JsonFormatter;
+
+        static ProtoModelTypeRegister()
+        {
+            var messageTypes = typeof(ProtoModelTypeRegister).Assembly.GetTypes()
+                .Where(t => t.IsAbstract == false)
+                .Where(t => t.IsAssignableTo(typeof(IMessage)));
+
+            var descriptorList = new List<MessageDescriptor>();
+            foreach (var msgType in messageTypes)
+            {
+                var descriptorProperty = msgType.GetProperty("Descriptor");
+                if (descriptorProperty == null)
+                {
+                    continue;
+                }
+
+                if (descriptorProperty.GetValue(msgType) is MessageDescriptor messageDescriptor)
+                {
+                    descriptorList.Add(messageDescriptor);
+                }
+            }
+
+            var typeRegistry = TypeRegistry.FromMessages(descriptorList);
+            JsonFormatter = new JsonFormatter(new JsonFormatter.Settings(true, typeRegistry));
+        }
+    }
+}
+```
+
+
 
 在ASP.NET Core中添加引用：
 
@@ -89,12 +139,6 @@ internal static class HttpExtensions
     }
 }
 ```
-
-
-
-## 两个Nuget包
-
-谷歌提供了[Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf)包用于解析Protocol Buffers数据，包括和json格式互转；[Grpc.Tools](https://www.nuget.org/packages/Grpc.Tools/#readme-body-tab)包可根据proto文件在编译时生成对应的c#/c++文件。
 
 
 
