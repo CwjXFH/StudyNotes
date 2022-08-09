@@ -4,7 +4,7 @@ Docker中网络按照驱动程序来分，常用的有[overlay](https://docs.doc
 
 bridge网络用于同一个Docker host(on the same Docker daemon host)上的独立运行的容器实例间的通讯。bridge是默认的网络类型，在启动一个容器时未指定网络类型则网络类型就是bridge。
 
-overlay网络可以将多个Docker daemon hosts连接到一起，实现swarm service之间互相通信。
+overlay网络可以将多个Docker daemon hosts连接到一起，实现swarm service之间、service和独立容器之间，或者分布在不同Docker host的独立容器之间互相通信。
 
 除overlay和bridge之外还有，docker内置网络驱动还有：
 
