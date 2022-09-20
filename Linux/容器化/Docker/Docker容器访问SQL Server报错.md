@@ -29,6 +29,34 @@ CipherString = DEFAULT@SECLEVEL=1
 
 
 
+除了通过挂载文件之外，还可以在`Dockerfile`中进行修改：
+
+`Dockerfile`中添加以下两条命令：
+
+```dockerfile
+RUN sed -i 's/TLSv1.2/TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
+```
+
+一个完整的`Dockerfile`示例：
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /source
+COPY . .
+RUN dotnet restore
+RUN dotnet publish ./src/APIs/APIs.csproj -c release -o /app --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+RUN sed -i 's/TLSv1.2/TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
+WORKDIR /app
+COPY --from=build /app ./
+ENTRYPOINT ["dotnet", "APIs.dll"]
+```
+
+
+
 ## Connection Timeout Expired
 
 容器中连接数据库报超时错误：
@@ -47,7 +75,9 @@ Github上[SqlClient](https://github.com/dotnet/SqlClient)项目Issues下挺多�
 
 ## 推荐阅读
 
-[Login-phase errors](https://docs.microsoft.com/en-us/sql/connect/ado-net/sqlclient-troubleshooting-guide?view=sql-server-ver16#login-phase-errors)
+[Login-phase errors](https://docs.microsoft.com/en-us/sql/connect/ado-net/sqlclient-troubleshooting-guide?view=sql-server-ver16#login-phase-errors)  
 
-[KB3135244 - TLS 1.2 support for Microsoft SQL Server](https://support.microsoft.com/en-us/topic/kb3135244-tls-1-2-support-for-microsoft-sql-server-e4472ef8-90a9-13c1-e4d8-44aad198cdbe)
+[KB3135244 - TLS 1.2 support for Microsoft SQL Server](https://support.microsoft.com/en-us/topic/kb3135244-tls-1-2-support-for-microsoft-sql-server-e4472ef8-90a9-13c1-e4d8-44aad198cdbe)  
+
+[Multi-stage builds](https://docs.docker.com/build/building/multi-stage/)
 
