@@ -225,6 +225,15 @@ ON UserInfo.UAddressId <> UAddress.Id;
 
 
 
+## 逻辑查询与物理查询
+
+针对以上几种逻辑层面的连接查询SQL Server，提供了[4种物理层面](https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins?view=sql-server-ver16)的连接查询操作：
+
++ Nested Loops joins
++ Merge joins
++ Hash joins
++ Adaptive joins (starting with SQL Server 2012(14.x))
+
 ## 小结
 
 过多的表联接会让SQL逻辑变得复杂，对查询性能产生负面影响，且难以维护。
@@ -241,4 +250,6 @@ SQL（任何代码）的书写应将语义清晰作为第一追求，而不是�
 
 [T-SQL基础（一）之简单查询](./T-SQL基础（一）之简单查询.md)
 
-[What is the difference between “INNER JOIN” and “OUTER JOIN”?](https://stackoverflow.com/questions/38549/what-is-the-difference-between-inner-join-and-outer-join)
+[What is the difference between “INNER JOIN” and “OUTER JOIN”?](https://stackoverflow.com/questions/38549/what-is-the-difference-between-inner-join-and-outer-join)  
+
+[Joins (SQL Server)](https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins?view=sql-server-ver16)

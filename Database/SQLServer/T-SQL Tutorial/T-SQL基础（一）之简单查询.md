@@ -119,10 +119,11 @@ SQL中的查询是指，SELECT语句经过一些列逻辑处理而获取数据�
 
 #### 查询语句执行顺序
 
-SQL中查询语句的逻辑处理过程与实际查询过程（物理查询过程）是有差异的，即，SELECT语句的执行顺序与书写顺序是有差异的。按照SELECT语法规定书写的SQL语句较为符合英语语法习惯（对人类友好），但SELECT语句的实际执行则按照如下顺序进行（对机器友好）：
+SQL中查询语句的[逻辑处理过程](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver16#logical-processing-order-of-the-select-statement)与书写顺序是有差异的，按照SELECT语法规定书写的SQL语句较为符合英语语法习惯（对人类友好），但SELECT语句的实际执行则按照如下顺序进行（对机器友好）：
 
 - FROM
-- JOIN ON
+- ON 
+- JOIN
 - WHERE
 - GROUP BY
 - HAVING
