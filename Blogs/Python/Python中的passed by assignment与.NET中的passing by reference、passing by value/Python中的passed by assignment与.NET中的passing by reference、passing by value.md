@@ -13,7 +13,7 @@ Remember that arguments are **passed by assignment** in Python. Since assignment
  - **P**ARAMETER → **P**LACEHOLDER (This means a placeholder belongs to the function naming and be used in the function body)
  - **A**RGUMENT → **A**CTUAL VALUE (This means an actual value which is passed by the function calling)
 
-![](C:/Users/WenJun/Desktop/%E5%8D%9A%E5%AE%A2%E8%8D%89%E7%A8%BF/imgs/parameter_vs_argument.jpg)
+![](imgs/parameter_vs_argument.jpg)
 
 
 
