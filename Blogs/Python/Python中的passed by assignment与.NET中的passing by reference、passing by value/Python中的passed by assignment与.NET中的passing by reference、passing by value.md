@@ -209,6 +209,8 @@ l = [9, 8, 7]
 
 def createNewList(l1: list):
     # l1+[0]会创建一个新的list对象，只是改变了局部变量l1的引用地址，不会影响变量l
+    # 注意：Python中l1=l1+[0]与l1+=[0]并不等价，+=操作符会扩展原列表，作用和append方法相同
+    # 更多详细信息可参考【Python中可变对象与不可变对象】博客
     l1 = l1+[0]
 
 def changeList(l1: list):
@@ -228,6 +230,8 @@ print(l)
 [9, 8, 7, 0]
 """
 ```
+
+
 
 ## 小结
 
@@ -254,3 +258,5 @@ print(l)
 [Method Parameters (C# Reference)](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/method-parameters)
 
 [The address-of operator](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/unsafe-code#the-address-of-operator)
+
+[Python中可变对象与不可变对象](../Python中可变对象与不可变对象.md)
