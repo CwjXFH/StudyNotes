@@ -118,6 +118,30 @@ Python中可使用以下几种方式进行浅拷贝：
   print(l1[0])  # 1
   ```
 
++ 推导式
+
+  列表、字典、集合推导式
+
+  ```python
+  class Person:
+      def __init__(self, name):
+          self.name = name
+  
+  
+  l1 = [Person("l1")]
+  l2 = [i for i in l1]
+  print(l1 is l2)  # False
+  print(l1[0] is l2[0])  # True
+  
+  s1 = {Person("s1")}
+  s2 = {i for i in s1}
+  print(s1 is s2)  # False
+  
+  ele1 = s1.pop()
+  ele2 = s2.pop()
+  print(ele1 is ele2)  # True
+  ```
+
   
 
 ## 推荐阅读 
