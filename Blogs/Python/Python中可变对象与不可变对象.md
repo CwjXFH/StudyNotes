@@ -142,7 +142,20 @@ Python中可使用以下几种方式进行浅拷贝：
   print(ele1 is ele2)  # True
   ```
 
++ 解包
+
+  ```python
+  class Person:
+      def __init__(self, name):
+          self.name = name
   
+  
+  l1 = [Person("l1")]
+  l2 = [*l1]
+  print(l1 is l2)  # False
+  l2[0].name = "l2"
+  print(l1[0].name)  # l2
+  ```
 
 ## 推荐阅读 
 
