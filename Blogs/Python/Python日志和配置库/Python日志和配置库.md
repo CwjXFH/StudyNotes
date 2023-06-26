@@ -1,3 +1,14 @@
+- [dynaconf](#dynaconf)
+  - [绑定配置到类型](#绑定配置到类型)
+  - [多环境配置](#多环境配置)
+    - [单个配置文件](#单个配置文件)
+    - [多个配置文件](#多个配置文件)
+- [loguru](#loguru)
+  - [结构化日志](#结构化日志)
+  - [滚动日志](#滚动日志)
+  - [替换FastAPI中的日志模块](#替换fastapi中的日志模块)
+
+
 日志和配置是应用不可缺少的部分，本文用于介绍dynaconf和loguru的简要用法。
 
 ## [dynaconf](https://github.com/dynaconf/dynaconf) 
