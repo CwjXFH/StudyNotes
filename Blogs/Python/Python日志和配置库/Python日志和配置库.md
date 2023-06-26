@@ -1,4 +1,4 @@
-日志和配置是应用不可缺少的部分，本文用于介绍Python中的第三方日志和配置库。
+日志和配置是应用不可缺少的部分，本文用于介绍dynaconf和loguru的简要用法。
 
 ## [dynaconf](https://github.com/dynaconf/dynaconf) 
 
@@ -85,6 +85,8 @@ print(p.name)
 
 ### 多环境配置
 
+#### 单个配置文件
+
 不同环境读取不同的配置：
 
 ```toml
@@ -111,16 +113,45 @@ export ENV_FOR_DYNACONF=production
 # unset ENV_FOR_DYNACONF
 ```
 
+或者
 
+```python
+import os
+
+os.environ["ENV_FOR_DYNACONF"] = "production"
+```
+
+输出结果
 
 ```python
 from src.config.config import settings
 
-print(settings.ENV_FOR_DYNACONF)
+print(settings.ENV_FOR_DYNACONF)  # 输出production
 
-p = Person(**settings.person)
+p = Person(**settings.person)  # 输出prod
 print(p.name)
 ```
+
+#### 多个配置文件
+
+```python
+from dynaconf import Dynaconf
+
+_cfg_files = ['settings.pro.toml', '.secrets.pro.toml']
+if __debug__:
+    _cfg_files = ['settings.dev.toml', '.secrets.dev.toml']
+
+settings = Dynaconf(
+    envvar_prefix="DYNACONF",
+    settings_files=_cfg_files
+)
+```
+
+这样我们就可以把不同环境下的配置项写入到不同的配置文件中了
+
+
+
+---
 
 
 
