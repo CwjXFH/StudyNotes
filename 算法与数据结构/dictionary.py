@@ -15,7 +15,7 @@ class MyDict():
         self.__value_type = value_type
         self.__capacity = capacity
         self.__count = 0
-        self.__buckets = [None for i in range(0, capacity)]
+        self.__buckets = [None for _ in range(0, capacity)]
 
     @property
     def count(self) -> int:
@@ -59,7 +59,7 @@ class MyDict():
     def __reset(self):
         old_cap = self.__capacity
         self.__capacity = 2 * self.__capacity
-        new_buckets = [None for i in range(0, self.__capacity)]
+        new_buckets = [None for _ in range(0, self.__capacity)]
         for i in range(0, old_cap):
             entry_list = self.__buckets[i]
             if entry_list is None:
@@ -82,10 +82,14 @@ class MyDict():
         entry_list = self.__buckets[bucket_no]
         if entry_list is None:
             return None
-        for node in entry_list.nodes():
-            if node.item.hash_code == key_hash and node.item.key == key:
-                return node
-        return None
+        return next(
+            (
+                node
+                for node in entry_list.nodes()
+                if node.item.hash_code == key_hash and node.item.key == key
+            ),
+            None,
+        )
 
 
 class _Entry():
