@@ -5,9 +5,7 @@ class ListNode:
         self.next = None
 
     def __eq__(self, other):
-        if not other:
-            return False
-        return id(self) == id(other)
+        return False if not other else id(self) == id(other)
 
 
 class Solution:
@@ -28,9 +26,8 @@ class Solution:
         while True:
             if id(slow) == id(fast):
                 break
-            else:
-                slow = slow.next
-                fast = fast.next
+            slow = slow.next
+            fast = fast.next
         return fast
 
 

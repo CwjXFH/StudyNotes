@@ -122,20 +122,18 @@ def merge(arrs: List[int], left: int, mid: int, right: int) -> List[int]:
     i = left
     j = mid + 1
     while i <= mid or j <= right:
-        if i <= mid and j <= right:
-            if arrs[i] < arrs[j]:
-                result.append(arrs[i])
-                i += 1
-            else:
-                result.append(arrs[j])
-                j += 1
-        elif i <= mid:
+        if (
+            i <= mid
+            and j <= right
+            and arrs[i] < arrs[j]
+            or (i > mid or j > right)
+            and i <= mid
+        ):
             result.append(arrs[i])
             i += 1
-        elif j <= right:
+        else:
             result.append(arrs[j])
             j += 1
-
     arrs[left:right + 1] = result
     return arrs
 

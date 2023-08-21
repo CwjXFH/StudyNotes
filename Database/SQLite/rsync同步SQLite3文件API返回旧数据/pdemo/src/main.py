@@ -33,11 +33,11 @@ dbcontext = HeroDbContext(db_path)
 @app.get("/{id}", summary="获取英雄信息（复用连接）", tags=["三国"], include_in_schema=True)
 async def get(id: int):
     db_r = dbcontext.get_by_id(id)
-    return {"successed": False if db_r is None else True, "data": db_r}
+    return {"successed": db_r is not None, "data": db_r}
 
 
 @app.get("/name/{name}", summary="根据名字获取英雄信息", tags=["三国"], include_in_schema=True)
 async def get(name: str):
     async with HeroDbContext(db_path) as db:
         db_r = db.get_by_name(name)
-        return {"successed": False if db_r is None else True, "data": db_r}
+        return {"successed": db_r is not None, "data": db_r}
