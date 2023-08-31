@@ -156,7 +156,8 @@ from rstream import (
     Consumer,
     ConsumerOffsetSpecification,
     MessageContext,
-    OffsetType, OffsetNotFound
+    OffsetType, 
+    OffsetNotFound
 )
 
 STREAM_QUEUE = "stream_queue"
@@ -169,16 +170,16 @@ async def msg_handler(msg: AMQPMessage, context: MessageContext):
 
 
 async def sub():
-    consumer = Consumer("localhost", 5552, username="guest", password="guest")
-    await consumer.start()
-    try:
-        offset = await consumer.query_offset(STREAM_QUEUE, CONSUMER_NAME)
-    except OffsetNotFound:
-        offset = 1
-    await consumer.subscribe(STREAM_QUEUE, msg_handler,
-                             offset_specification=ConsumerOffsetSpecification(OffsetType.OFFSET, offset),
-                             subscriber_name=CONSUMER_NAME)
-    await consumer.run()
+    async with Consumer("localhost", 5552, username="guest", password="guest") as consumer:
+        await consumer.start()
+        try:
+            offset = await consumer.query_offset(STREAM_QUEUE, CONSUMER_NAME)
+        except OffsetNotFound:
+            offset = 1
+        await consumer.subscribe(STREAM_QUEUE, msg_handler,
+                                 offset_specification=ConsumerOffsetSpecification(OffsetType.OFFSET, offset),
+                                 subscriber_name=CONSUMER_NAME)
+        await consumer.run()
 
 
 if __name__ == "__main__":
@@ -191,10 +192,10 @@ if __name__ == "__main__":
 
 ## Kafka简单对比
 
-|              | rabbitmq | kafka     |
-| ------------ | -------- | --------- |
-| 生产/消费者  | queue    | topic     |
-| 底层消息存储 | chunk    | partition |
+|                 | rabbitmq | kafka     |
+| --------------- | -------- | --------- |
+| 生产/消费者层面 | queue    | topic     |
+| 底层消息存储    | chunk    | partition |
 
 
 
