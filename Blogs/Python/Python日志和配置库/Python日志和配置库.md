@@ -188,7 +188,7 @@ logger.info("一条日志信息")
 
 loguru输出的日志带有颜色，不仅美观，还易于阅读，如下图所示
 
-![](imgs/loguru_console.jpg)
+![](./imgs/loguru_console.jpg)
 
 ### 结构化日志
 
@@ -234,7 +234,7 @@ except Exception as err:
 
 输出日志：
 
-![](imgs/loguru_exception.jpg)
+![](./imgs/loguru_exception.jpg)
 
 ### 滚动日志
 
@@ -429,7 +429,7 @@ if __name__ == "__main__":
 
 启动API服务，输出如下日志：
 
-![](imgs/uvicorn_loguru.jpg)
+![](./imgs/uvicorn_loguru.jpg)
 
 可以看到，已经使用loguru成功替换掉了内置的logging模块。
 
