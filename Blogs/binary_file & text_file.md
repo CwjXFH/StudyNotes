@@ -60,6 +60,8 @@
 #### Python
 
 > 参考[io模块](https://docs.python.org/3.4/library/io.html?highlight=io)
+>
+> Github上一个获取二进制文件信息的Python项目：[Binary File Info](https://github.com/praise002/20-python-project/tree/master/binary-file-info)
 
 ```python
 import os
