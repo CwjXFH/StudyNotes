@@ -57,6 +57,44 @@ ENTRYPOINT ["dotnet", "APIs.dll"]
 
 
 
+### .NET 8
+
+.NET 8连接部署在Windows Server 2012 R2 上的SQL Server 2016 SP1时，出现上述错误，须在openssl.cnf配置文件中添加如下节点：
+
+```shell
+[openssl_init]
+ssl_conf = ssl_configuration
+[ssl_configuration]
+system_default = tls_system_default
+[tls_system_default]
+MinProtocol = TLSv1
+CipherString = DEFAULT@SECLEVEL=0
+```
+
+可在打包镜像时使用如下命令添加：
+
+```shell
+RUN sed -i 's|\[openssl_init\]|&\nssl_conf = ssl_configuration\n[ssl_configuration]\nsystem_default = tls_system_default\n[tls_system_default]\nMinProtocol = TLSv1\nCipherString = DEFAULT@SECLEVEL=0|' /etc/ssl/openssl.cnf
+```
+
+
+
+但，同一套代码，连接另外两台数据库不出错，配置分别如下：
+
+```
+SOL Server 2016 SP1
+Windows Server 2016
+```
+
+```
+SQL Server 2016 SP3
+Windows Server 2022
+```
+
+具体细节待研究
+
+
+
 ## Connection Timeout Expired
 
 容器中连接数据库报超时错误：
