@@ -143,6 +143,8 @@ p = Person(**settings.person)  # 输出prod
 print(p.name)
 ```
 
+> 有关环境变量相关内容，请参考：[Environment Variables](https://www.dynaconf.com/envvars/)
+
 #### 多个配置文件
 
 ```python
@@ -433,3 +435,8 @@ if __name__ == "__main__":
 
 可以看到，已经使用loguru成功替换掉了内置的logging模块。
 
+
+
+## 推荐阅读
+
+[Dynaconf Environment Variables](https://www.dynaconf.com/envvars/)
