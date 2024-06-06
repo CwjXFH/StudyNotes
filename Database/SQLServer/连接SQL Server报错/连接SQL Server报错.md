@@ -11,7 +11,7 @@ Microsoft.Data.SqlClient.SqlException (0x80131904): A connection was successfull
 
 在github上提了个[issue](https://github.com/dotnet/efcore/issues/33705)，原来是在EFCore 7这个版本有个[breaking change](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/breaking-changes?tabs=v7#encrypt-true)：连接字符串中的`Encrypt`参数的默认值有False变为了True，那么在连接数据库时就会尝试建立加密连接，也就是这个过程失败了。
 
-> Encrypt=False，若SQL Server配置了强制使用加密连接也会取尝试建立加密连接
+> Encrypt=False，若SQL Server配置了强制使用加密连接也会去尝试建立加密连接
 
 失败原因是SQL Server的证书没有在客户端通过校验。下面是本机进行复现的错误信息：
 
