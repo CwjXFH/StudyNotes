@@ -36,6 +36,41 @@
 
 
 
+#### 按值传递结构体的坑
+
+```c#
+var d1 = new StructDemo();
+d1.SetTag();
+// 执行该方法后，d1._tag的值不会发生变化
+// 异步方法状态机会拷贝d1到堆上，异步方法中对于字段的修改不会影响到变量d1
+await d1.SetTagAsync(); 
+
+
+file struct StructDemo
+{
+    private int _tag = 0;
+
+    public StructDemo()
+    {
+    }
+
+    public void SetTag()
+    {
+        _tag = 1;
+    }
+
+    public async Task SetTagAsync()
+    {
+        _tag = 100;
+        await Task.CompletedTask;
+    }
+}
+```
+
+> [c# - Struct's private field value is not updated using an async method - Stack Overflow](https://stackoverflow.com/questions/31642535/structs-private-field-value-is-not-updated-using-an-async-method)
+
+
+
 #### 数组索引器按引用返回
 
 ```c#
