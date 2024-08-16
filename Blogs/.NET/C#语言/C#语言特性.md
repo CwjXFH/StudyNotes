@@ -3,3 +3,122 @@
 <img src="./imgs/new_vs_override.png" />
 
 > new调用哪个方法看变量编译时类型，override看运行时类型
+
+
+
+## 委托涉及的内存分配
+
+[Understanding the cost of C# delegates](https://devblogs.microsoft.com/dotnet/understanding-the-cost-of-csharp-delegates/)
+
+
+
+> 尽可能使用静态，避免出现闭包
+
+
+
+## 按引用传递及可能导致的性能问题
+
+[Performance traps of ref locals and ref returns in C#](https://devblogs.microsoft.com/premier-developer/performance-traps-of-ref-locals-and-ref-returns-in-c/)
+
+注意点：
+
++ **数组索引器按照引用返回**，List集合索引器按照值返回
+
++ 按引用传递不会复制结构体，按值传递会复制结构体
+
++ 对于使用readonly修饰的非只读结构体变量，在每次访问其成员时，都会创建**防御性副本**，即使使用`ref readonly`
+
++ 按引用返回会破坏封装性，因为调用方获得了完全控制权
+
++ 在方法调用结束后依然基于别名使用方法中分配在栈上的变量会导致应用崩溃
+
+  所以，不能按照引用返回局部变量；在结构体中不能按引用返回this，详情参考：[Ref safe context](https://learn.microsoft.com/zh-cn/dotnet/csharp/advanced-topics/performance/#ref-safe-context)
+
+
+
+#### 数组索引器按引用返回
+
+```c#
+// List<Demo> darr = [new Demo(100), new Demo(200)];
+
+Demo[] darr = [new Demo(100), new Demo(200)];
+
+var d = darr[0];
+Console.WriteLine(d.Count);
+d.Add();
+Console.WriteLine(d.Count);
+
+Console.WriteLine("直接访问数组元素");
+
+Console.WriteLine(darr[0].Count);
+darr[0].Add();
+Console.WriteLine(darr[0].Count);  // darr是数组时和是List<>类型时输出结果不一样
+Console.WriteLine();
+
+struct Demo(int count)
+{
+    public int Count => count;
+
+    public void Add() => count++;
+}
+```
+
+
+
+#### readonly防御性复制
+
+```c#
+public struct FairlyLargeStruct
+{
+    private readonly long l1, l2, l3, l4;
+    public int N { get; }
+    public FairlyLargeStruct(int n) : this() => N = n;
+}
+
+
+==================================================================================
+
+
+private FairlyLargeStruct _nonReadOnlyStruct = new FairlyLargeStruct(42);
+// 每次访问结构体成员都会导致防御性复制
+private readonly FairlyLargeStruct _readOnlyStruct = new FairlyLargeStruct(42);
+private readonly int[] _data = Enumerable.Range(1, 100_000).ToArray();
+        
+[Benchmark]
+public int AggregateForNonReadOnlyField()
+{
+    int result = 0;
+    foreach (int n in _data)
+        result += n + _nonReadOnlyStruct.N;
+    return result;
+}
+
+[Benchmark]
+public int AggregateForReadOnlyField()
+{
+    int result = 0;
+    foreach (int n in _data)
+        result += n + _readOnlyStruct.N;
+    return result;
+}
+```
+
+
+
+#### `ref readonly`防御性复制
+
+```c#
+public struct BigStruct
+{
+    // Other fields
+    public int X { get; }
+    public int Y { get; }
+}
+ 
+private BigStruct _bigStruct;
+public ref readonly BigStruct GetBigStructByRef() => ref _bigStruct;
+ 
+ref readonly var bigStruct = ref GetBigStructByRef();
+int result = bigStruct.X + bigStruct.Y;
+```
+
