@@ -28,6 +28,8 @@
 
 + 对于使用readonly修饰的非只读结构体类型变量，在每次访问其成员时，都会创建**防御性副本**，即使使用`ref readonly`
 
++ readonly成员访问非readonly成员会导致复制（结合上一条）
+
 + 按引用返回会破坏封装性，因为调用方获得了完全控制权
 
 + 在方法调用结束后依然基于别名使用方法中分配在栈上的变量会导致应用崩溃
@@ -157,3 +159,35 @@ ref readonly var bigStruct = ref GetBigStructByRef();
 int result = bigStruct.X + bigStruct.Y;
 ```
 
+#### readonly成员访问非readonly成员会导致复制
+
+readonly 成员可以调用结构体的非 readonly 成员。当这样调用时，编译器会创建一个结构体实例的副本，然后在这个副本上调用非 readonly 成员。这意味着任何由非 readonly 成员进行的修改只会影响副本，而不会影响结构体的原始实例。
+
+```c#
+var item = new MyStruct { Value = 666 };
+item.ReadonlyMethod();
+Console.WriteLine(item.Value);  // 666
+
+item.NonReadonlyMethod();
+Console.WriteLine(item.Value);  // 10
+
+public struct MyStruct
+{
+    public int Value;
+
+    public readonly void ReadonlyMethod()
+    {
+        // 这行代码会导致编译错误：
+        // Value = 10; // 无法为 'Value' 赋值，因为它是 readonly 实例成员
+
+        // 然而，调用非 readonly 方法是允许的：
+        NonReadonlyMethod();
+    }
+
+    public void NonReadonlyMethod()
+    {
+        // 这个方法可以修改结构体的字段
+        Value = 10;
+    }
+}
+```
