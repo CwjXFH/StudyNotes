@@ -126,8 +126,8 @@ Task.Yield作用
 
 让渡控制权
 
-[Consuming the Task-based Asynchronous Pattern - .NET | Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/consuming-the-task-based-asynchronous-pattern#configuring-suspension-and-resumption-with-yield-and-configureawait)
+[Consuming the Task-based Asynchronous Pattern - .NET | Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/consuming-the-task-based-asynchronous-pattern#configuring-suspension-and-resumption-with-yield-and-configureawait)  
 
+[Internal Mechanisms of **Tasks** in .NET](https://medium.com/net-under-the-hood/internal-mechanisms-of-tasks-in-net-ef461956d4a7)  
 
-
-[.NET ThreadPool starvation, and how queuing makes it worse | by Kevin Gosse | Criteo R&D Blog | Medium](https://medium.com/criteo-engineering/net-threadpool-starvation-and-how-queuing-makes-it-worse-512c8d570527)
+[.NET ThreadPool starvation, and how queuing makes it worse | by Kevin Gosse | Criteo R&D Blog | Medium](https://medium.com/criteo-engineering/net-threadpool-starvation-and-how-queuing-makes-it-worse-512c8d570527)  
