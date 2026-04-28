@@ -38,7 +38,13 @@ finally
 
 
 
-接下来我们在原`ArrayPool`的基础上稍加封装，以实现简洁、安全的使用`ArrayPool`的目标，代码如下：
+接下来我们在原`ArrayPool`的基础上稍加封装，以实现简洁、安全的使用`ArrayPool`的目标，封装后的使用只需一行代码，效果如下：
+
+```c#
+using var pool = new ArrayPoolWrapper<int>(5);
+```
+
+具体实现代码如下：
 
 ```c#
 public struct ArrayPoolWrapper<T> : IDisposable
@@ -93,12 +99,6 @@ public struct ArrayPoolWrapper<T> : IDisposable
         }
     }
 }
-```
-
-封装后的使用只需一行代码，效果如下：
-
-```c#
-using var pool = new ArrayPoolWrapper<int>(5);
 ```
 
 我们还可以通过封装来实现更多的扩展API，如：`RemoveLastOne`以及基于`Span`的切片操作：
